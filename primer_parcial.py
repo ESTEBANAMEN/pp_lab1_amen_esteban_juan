@@ -81,7 +81,7 @@ def imprimir_menu():
     menu = '\n1) Mostrar la lista de todos los jugadores del Dream Team.'
     menu += '\n2) Seleccionar un jugador por su indice y mostrar sus estadisticas.'
     menu += '\n3) Guardar en un archivo, de extensión .csv, los datos del punto anterior.'
-    menu += '\n4) .'
+    menu += '\n4) Buscar un jugador por su nombre y mostrar sus logros.'
     menu += '\n5) .'
     menu += '\n6) .'
     menu += '\n7) .'
