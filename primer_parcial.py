@@ -105,7 +105,7 @@ def imprimir_menu():
     return imprimir_dato(menu)
 
 #################################################### PUNTO 1 ####################################################
-def mostrar_jugadores_y_posicion(lista_jugadores: list[dict]):
+def mostrar_jugadores_y_posicion(lista_jugadores:list[dict]):
     '''
     \nEsta función muestra el nombre y la posición de los jugadores de la lista.
     \nRecibe por parametro la lista de jugadores.
@@ -137,7 +137,7 @@ def mostrar_estadisticas_jugador(jugador: dict):
     imprimir_dato(mensaje)
     return mensaje_para_csv
 
-def indices_con_nombres(equipo_dream_team):
+def indices_con_nombres(lista_jugadores:list[dict]):
     '''
     \nEsta función itera sobre la lista de jugadores, generando un indice por el cual se obtendra el diccionario correspondiente al jugador en esa posicion.
     \nRecibe por parametro la lista de jugadores.
@@ -145,14 +145,14 @@ def indices_con_nombres(equipo_dream_team):
     '''
     indice = 0
     imprimir_dato("")
-    for jugador in equipo_dream_team:
+    for jugador in lista_jugadores:
         imprimir_dato(f"{indice}- {jugador['nombre']}")
         indice += 1
     while True:
         opcion = input("\nSeleccione el índice de un jugador: ")
         indice = int(opcion)
-        if indice >= 0 and indice < len(equipo_dream_team):
-            jugador_seleccionado = equipo_dream_team[indice]
+        if indice >= 0 and indice < len(lista_jugadores):
+            jugador_seleccionado = lista_jugadores[indice]
             imprimir_dato(f"\nEstadísticas de {jugador_seleccionado['nombre']}:")
             mensaje_estadisticas = mostrar_estadisticas_jugador(jugador_seleccionado)
             guardar = input("\n3) Desea guardar los datos del jugador mostrado? \nSi = s\nNo = tecla cuakquiera\n")
@@ -162,3 +162,27 @@ def indices_con_nombres(equipo_dream_team):
             break
         else: 
             imprimir_dato("\nIndice Erroneo!! Intentalo nuevamente.")
+
+#################################################### PUNTO 4 ####################################################
+
+def buscar_jugador_por_nombre(lista_jugadores:list[dict]):
+    '''
+    \nEsta función permite que el usuario ingrese ciertos caracteres con los cuales se buscarán coincidencias en los nombres de los jugadores, para luego mediante estos, acceder a los logros.
+    \nRecibe como parametro la lista de diccionarios que representan los jugadores.
+    \nNo retorna, pero imprime el nombre y los logros, segun el match que devuelve el re.search.
+    '''
+    nombre = input("\nIngrese el nombre del jugador: ").capitalize()
+    imprimir_dato("")
+    booleano = False
+    for jugador in lista_jugadores:
+        if re.search(nombre, jugador['nombre']):
+            frase_con_nombre = f"Logros de: {jugador['nombre']}"
+            imprimir_dato(frase_con_nombre)
+            booleano = True
+            for logro in jugador['logros']:
+                imprimir_dato(logro)
+            imprimir_dato("")
+    if booleano:
+        pass
+    else:
+        imprimir_dato("\nNo hay coincidencias!")

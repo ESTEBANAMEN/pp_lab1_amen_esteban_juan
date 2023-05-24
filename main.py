@@ -2,7 +2,8 @@ from primer_parcial import (leer_json_dream_team,
                             imprimir_menu,
 							validar_opcion_numerica,
 							mostrar_jugadores_y_posicion,
-							indices_con_nombres
+							indices_con_nombres,
+							buscar_jugador_por_nombre
 							)
 
 def dream_team_app():
@@ -22,7 +23,7 @@ def dream_team_app():
 			case 3:
 				print('\nEste punto se utiliza junto con el anterior.')
 			case 4:
-				pass
+				buscar_jugador_por_nombre(equipo_dream_team)
 			case 5:
 				pass
 			case 6:
