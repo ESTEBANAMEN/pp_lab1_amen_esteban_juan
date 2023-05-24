@@ -1,7 +1,8 @@
 from primer_parcial import (leer_json_dream_team,
                             imprimir_menu,
 							validar_opcion_numerica,
-							mostrar_jugadores_y_posicion
+							mostrar_jugadores_y_posicion,
+							indices_con_nombres
 							)
 
 def dream_team_app():
@@ -17,7 +18,7 @@ def dream_team_app():
 			case 1:
 				mostrar_jugadores_y_posicion(equipo_dream_team)
 			case 2:
-				pass
+				indices_con_nombres(equipo_dream_team)
 			case 3:
 				pass
 			case 4:
