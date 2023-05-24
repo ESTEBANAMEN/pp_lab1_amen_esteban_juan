@@ -12,7 +12,7 @@ def dream_team_app():
 	equipo_dream_team = leer_json_dream_team('dt.json', 'jugadores')
 	while True:
 		imprimir_menu()
-		opcion = validar_opcion_numerica(input("Opcion a elejir: "))
+		opcion = validar_opcion_numerica(input("Opcion a elegir: "))
 
 		match(opcion):
 			case 1:
@@ -20,7 +20,7 @@ def dream_team_app():
 			case 2:
 				indices_con_nombres(equipo_dream_team)
 			case 3:
-				pass
+				print('\nEste punto se utiliza junto con el anterior.')
 			case 4:
 				pass
 			case 5:

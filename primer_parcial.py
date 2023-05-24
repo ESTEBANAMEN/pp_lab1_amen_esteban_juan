@@ -44,6 +44,33 @@ def reemplazar_guion_por_espacio_y_capitalizar(cadena:str) -> str:
     cadena_modificada = cadena_modificada.capitalize()
     return cadena_modificada
 
+def reemplazar_espacios_por_guion_y_lower(cadena:str) -> str:
+    '''
+    \nEsta función nos permite separar por "guion bajo" en lugar del "espacio" dado en las cadenas de texto y transformar en minúsculas las letras.
+    \nRecibe por parametro una cadena de texto, la cual se espera esté separada mediante el uso de "espacios".
+    \nRetorna a la cadena recibida con los espacios, reemplazados por guion bajo y lowerizada (todas las letras en minúscula).
+    '''
+    cadena_modificada = cadena.replace(" ", "_")
+    cadena_modificada = cadena_modificada.lower()
+    return cadena_modificada
+
+def guardar_archivo(nombre_archivo:str, contenido_a_guardar:str) -> bool:
+    '''
+    \nEsta función nos permite guardar determinados datos en un archivo.
+    \nRecibe por parametros el nombre del archivo (ruta)  y el contenido a volcar en dicho archivo.
+    \nNo retorna, pero imprime un mensaje para los casos en que se cree o no el archivo.
+    '''
+    booleano = False
+    with open(nombre_archivo, "w+", encoding = 'utf-8') as archivo:
+        archivo.writelines(contenido_a_guardar)
+        booleano = True
+        mensaje = f"\nSe creó el archivo exitosamente: {nombre_archivo}"
+    if booleano:
+        print(mensaje)
+    else:
+        mensaje = f"\nERROR al crear el archivo: {nombre_archivo}"
+        print(mensaje)
+
 ##########################################################################################################################
 
 def imprimir_menu():
@@ -53,7 +80,7 @@ def imprimir_menu():
     '''
     menu = '\n1) Mostrar la lista de todos los jugadores del Dream Team.'
     menu += '\n2) Seleccionar un jugador por su indice y mostrar sus estadisticas.'
-    menu += '\n3) .'
+    menu += '\n3) Guardar en un archivo, de extensión .csv, los datos del punto anterior.'
     menu += '\n4) .'
     menu += '\n5) .'
     menu += '\n6) .'
@@ -93,24 +120,28 @@ def mostrar_jugadores_y_posicion(lista_jugadores: list[dict]):
         else:
             imprimir_dato(f"Nombre: {nombre}\tPosición: {posicion}")
 
-#################################################### PUNTO 2 ####################################################
+#################################################### PUNTOS 2 y 3 ####################################################
 
 def mostrar_estadisticas_jugador(jugador: dict):    
     '''
     \nEsta función itera sobre un diccionario para almacenar ciertas claves y valores para luego ser impresos.
     \nRecibe por parametro un diccionario que representa a un jugador, captado desde otra función.
-    \nNo retorna, si no que imprime por consola un mensaje con las claves y valores respectivas a las estadisticas de un jugador.
+    \nRetorna la informacion que luego será utilizada para generar un archivo .csv en otra función, y también imprime por consola un mensaje con las claves y valores respectivas a las estadisticas de un jugador.
     '''
+    mensaje = ""
+    mensaje_para_csv = f"{jugador['nombre']}\nPosicion: {jugador['posicion']}\n"
     for clave, valor in jugador['estadisticas'].items():
         estadisticas = reemplazar_guion_por_espacio_y_capitalizar(clave)
-        mensaje = f"{estadisticas}: {valor}"
-        imprimir_dato(mensaje)
+        mensaje += f"{estadisticas}: {valor}\n"
+    mensaje_para_csv += mensaje
+    imprimir_dato(mensaje)
+    return mensaje_para_csv
 
 def indices_con_nombres(equipo_dream_team):
     '''
     \nEsta función itera sobre la lista de jugadores, generando un indice por el cual se obtendra el diccionario correspondiente al jugador en esa posicion.
     \nRecibe por parametro la lista de jugadores.
-    \nNo retorna. Pero imprime, en prinicipio, un menú de seleccion en base al indice generado. Y por medio de otra función las estadisticas seleccionadas.
+    \nNo retorna. Pero imprime, en prinicipio, un menú de seleccion en base al indice generado. Y por medio de otra función las estadisticas seleccionadas. Así mismo, si el usuario asi lo desea, se activa la opcion del ejercicio número 3, la cual permite crear y almacenar en un archivo .csv la informacion mostrada.
     '''
     indice = 0
     imprimir_dato("")
@@ -123,9 +154,11 @@ def indices_con_nombres(equipo_dream_team):
         if indice >= 0 and indice < len(equipo_dream_team):
             jugador_seleccionado = equipo_dream_team[indice]
             imprimir_dato(f"\nEstadísticas de {jugador_seleccionado['nombre']}:")
-            mostrar_estadisticas_jugador(jugador_seleccionado)
+            mensaje_estadisticas = mostrar_estadisticas_jugador(jugador_seleccionado)
+            guardar = input("\n3) Desea guardar los datos del jugador mostrado? \nSi = s\nNo = tecla cuakquiera\n")
+            if guardar == 's' or guardar == 'S':
+                nombre_del_archivo = f"C:.\jugadores_csv\estadisticas_{reemplazar_espacios_por_guion_y_lower(jugador_seleccionado['nombre'])}.csv"
+                guardar_archivo(nombre_del_archivo, mensaje_estadisticas)
             break
         else: 
             imprimir_dato("\nIndice Erroneo!! Intentalo nuevamente.")
-
-
