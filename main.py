@@ -1,25 +1,21 @@
 from primer_parcial import (leer_json_dream_team,
                             imprimir_menu,
-							
+							validar_opcion_numerica,
+							mostrar_jugadores_y_posicion
 							)
-
-# C':\\Users\\steba\\OneDrive\\Escritorio\\pp_lab1_amen_esteban_juan\\dt.json'
-
-
 
 def dream_team_app():
 	'''
-	# Esta función es utilizada para interactuar con el menu de opciones, siendo asi la función principal.
+	\nEsta función es utilizada para interactuar con el menu de opciones, siendo asi la función principal.
 	'''
 	equipo_dream_team = leer_json_dream_team('dt.json', 'jugadores')
 	while True:
 		imprimir_menu()
-		opcion = int(input("Opcion a elejir: "))
+		opcion = validar_opcion_numerica(input("Opcion a elejir: "))
 
 		match(opcion):
 			case 1:
-				for items in equipo_dream_team:
-					print("\n",items, end = "\n\n\n")
+				mostrar_jugadores_y_posicion(equipo_dream_team)
 			case 2:
 				pass
 			case 3:
@@ -67,6 +63,6 @@ def dream_team_app():
 			case 24:
 				print("CERRANDO PROGRAMA! UN SALUDO.")
 				break
-			case _:
-				pass
+			case 25:
+				print("\nOpción invalida!!")
 dream_team_app()
