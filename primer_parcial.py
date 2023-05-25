@@ -163,25 +163,30 @@ def indices_con_nombres(lista_jugadores:list[dict]):
         else: 
             imprimir_dato("\nIndice Erroneo!! Intentalo nuevamente.")
 
-#################################################### PUNTO 4 ####################################################
+#################################################### PUNTO 4 y 6 ####################################################
 
-def buscar_jugador_por_nombre(lista_jugadores:list[dict]):
+def buscar_jugador_por_nombre_logros(lista_jugadores:list[dict], punto:int):
     '''
     \nEsta función permite que el usuario ingrese ciertos caracteres con los cuales se buscarán coincidencias en los nombres de los jugadores, para luego mediante estos, acceder a los logros.
-    \nRecibe como parametro la lista de diccionarios que representan los jugadores.
-    \nNo retorna, pero imprime el nombre y los logros, segun el match que devuelve el re.search.
+    \nRecibe como parametro la lista de diccionarios que representan los jugadores y un entero que representa la opcion del menú elegida por el usuario.
+    \nNo retorna, pero imprime el nombre y los logros (para el punto 4) o si dentro de ellos tiene la membresia en el salon de la fama (punto 6) segun el match que devuelve el re.search.
     '''
     nombre = input("\nIngrese el nombre del jugador: ").capitalize()
     imprimir_dato("")
     booleano = False
     for jugador in lista_jugadores:
         if re.search(nombre, jugador['nombre']):
-            frase_con_nombre = f"Logros de: {jugador['nombre']}"
-            imprimir_dato(frase_con_nombre)
             booleano = True
-            for logro in jugador['logros']:
-                imprimir_dato(logro)
-            imprimir_dato("")
+            if punto == 4:
+                frase_con_nombre = f"Logros de: {jugador['nombre']}"
+                imprimir_dato(frase_con_nombre)
+                for logro in jugador['logros']:
+                    imprimir_dato(logro)
+                imprimir_dato("")
+            elif punto == 6:
+                for logro in jugador['logros']:
+                    if logro == "Miembro del Salon de la Fama del Baloncesto":
+                        imprimir_dato(f"{jugador['nombre']} es {logro}")
     if booleano:
         pass
     else:
