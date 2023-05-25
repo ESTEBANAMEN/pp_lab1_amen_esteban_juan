@@ -157,13 +157,20 @@ def indices_con_nombres(lista_jugadores:list[dict]):
             mensaje_estadisticas = mostrar_estadisticas_jugador(jugador_seleccionado)
             guardar = input("\n3) Desea guardar los datos del jugador mostrado? \nSi = s\nNo = tecla cuakquiera\n")
             if guardar == 's' or guardar == 'S':
-                nombre_del_archivo = f"C:.\jugadores_csv\estadisticas_{reemplazar_espacios_por_guion_y_lower(jugador_seleccionado['nombre'])}.csv"
-                guardar_archivo(nombre_del_archivo, mensaje_estadisticas)
+                while True:
+                    imprimir_menu()
+                    opcion = validar_opcion_numerica(input("Para guardar elija la opcion 3: "))
+                    if opcion == 3:
+                        nombre_del_archivo = f"C:.\jugadores_csv\estadisticas_{reemplazar_espacios_por_guion_y_lower(jugador_seleccionado['nombre'])}.csv"
+                        guardar_archivo(nombre_del_archivo, mensaje_estadisticas)
+                        break
+                    else:
+                        imprimir_dato("\nLa 3, dije!")
             break
         else: 
             imprimir_dato("\nIndice Erroneo!! Intentalo nuevamente.")
 
-#################################################### PUNTO 4 y 6 ####################################################
+#################################################### PUNTOS 4 y 6 ####################################################
 
 def buscar_jugador_por_nombre_logros(lista_jugadores:list[dict], punto:int):
     '''
@@ -233,3 +240,18 @@ def acumular_promediar(lista_jugadores:list[dict]):
     imprimir_dato(f"El promedio del total mencionado es: {acumulador_de_puntos_p_p/len(lista_jugadores)}\n")
     ordenar_segun_p_p(diccionario_jugador_p_p)
 
+#################################################### PUNTOS 7, 8 y 9 ####################################################
+
+def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores:list[dict],estadistica_a_evaluar:str):
+    nombre_estadistica_max = ""
+    estadistica_max = 0
+    for jugador in lista_jugadores:
+        if jugador['estadisticas'][estadistica_a_evaluar] > estadistica_max:
+            nombre_estadistica_max = jugador['nombre']
+            estadistica_max = jugador['estadisticas'][estadistica_a_evaluar]
+    estadistica_final = estadistica_a_evaluar.replace("_", " ")
+    if re.search(r"^porcentaje tiros",estadistica_final):
+        estadistica_final = re.sub(r"porcentaje tiros", "porcentaje de tiros", estadistica_final)
+    mensaje = f"El jugador con mas {estadistica_final} es {nombre_estadistica_max}, con la cantidad de {estadistica_max}"
+    imprimir_dato("")
+    imprimir_dato(mensaje)

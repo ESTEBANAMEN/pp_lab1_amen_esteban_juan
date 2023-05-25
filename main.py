@@ -4,7 +4,8 @@ from primer_parcial import (leer_json_dream_team,
 							mostrar_jugadores_y_posicion,
 							indices_con_nombres,
 							buscar_jugador_por_nombre_logros,
-							acumular_promediar
+							acumular_promediar,
+							iterar_jugadores_calcular_max_y_mostrar
 							)
 
 def dream_team_app():
@@ -22,7 +23,7 @@ def dream_team_app():
 			case 2:
 				indices_con_nombres(equipo_dream_team)
 			case 3:
-				print('\nEste punto se utiliza junto con el anterior.')
+				print('\nEste punto se utiliza junto con el anterior. Usted debe visualizar primeramente si lo que va a guardar esta en orden!')
 			case 4:
 				buscar_jugador_por_nombre_logros(equipo_dream_team, opcion)
 			case 5:
@@ -30,11 +31,11 @@ def dream_team_app():
 			case 6:
 				buscar_jugador_por_nombre_logros(equipo_dream_team, opcion)
 			case 7:
-				pass
+				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'rebotes_totales')
 			case 8:
-				pass
+				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'porcentaje_tiros_de_campo')
 			case 9:
-				pass
+				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'asistencias_totales')
 			case 10:
 				pass
 			case 11:
