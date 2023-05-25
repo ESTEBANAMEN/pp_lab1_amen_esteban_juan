@@ -82,7 +82,7 @@ def imprimir_menu():
     menu += '\n2) Seleccionar un jugador por su indice y mostrar sus estadisticas.'
     menu += '\n3) Guardar en un archivo, de extensión .csv, los datos del punto anterior.'
     menu += '\n4) Buscar un jugador por su nombre y mostrar sus logros.'
-    menu += '\n5) .'
+    menu += '\n5) Calcular y mostrar el promedio de puntos por partido de todo el equipo del Dream Team, ordenado por nombre de manera ascendente. .'
     menu += '\n6) .'
     menu += '\n7) .'
     menu += '\n8) .'
@@ -186,6 +186,8 @@ def buscar_jugador_por_nombre(lista_jugadores:list[dict]):
         pass
     else:
         imprimir_dato("\nNo hay coincidencias!")
+
+#################################################### PUNTO 5 ####################################################
 
 def ordenar_segun_p_p(diccionario_jugador_p_p:dict):
     '''
