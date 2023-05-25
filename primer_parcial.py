@@ -186,3 +186,43 @@ def buscar_jugador_por_nombre(lista_jugadores:list[dict]):
         pass
     else:
         imprimir_dato("\nNo hay coincidencias!")
+
+def ordenar_segun_p_p(diccionario_jugador_p_p:dict):
+    '''
+    \nEsta función nos permite realizar un ordenamiento segun valores numéricos almacenados en una lista. Por otro lado de forma paralela, interactuara con otra segunda lista que contiene cadenas de texto.
+    \nRecibe por parametro un diccionario con los nombres de los jugadores como claves y el promedio de puntos por partido como valores.
+    \nNo retorna. Imprime, mediante una iteración las nombres y los pomedios en forma ordenada-ascendente.
+    '''
+    claves = list(diccionario_jugador_p_p.keys())
+    valores = list(diccionario_jugador_p_p.values())
+    cantidad_de_indices = len(valores)
+    for indice in range(cantidad_de_indices):
+        indice_minimo = indice
+        for indice2 in range(indice + 1, cantidad_de_indices):
+            if valores[indice2] < valores[indice_minimo]:
+                indice_minimo = indice2
+        valores[indice], valores[indice_minimo] = valores[indice_minimo], valores[indice]
+        claves[indice], claves[indice_minimo] = claves[indice_minimo], claves[indice]
+    imprimir_dato(f"Jugadores ordenados por puntos por partido y de forma ascendente:")
+    for indice in range(cantidad_de_indices):
+        clave = claves[indice]
+        valor = valores[indice]
+        imprimir_dato(f"{clave}: {valor}")
+
+def acumular_promediar(lista_jugadores:list[dict]):
+    '''
+    \nEsta función acumula los promedios de puntos por partido de los jugadores, los promedia y almacena los nombres y valores mencionados en un diccionario.
+    \nRecibe por parametro la lista de diccionarios correspondientes a los jugadores del Dream Team.
+    \nNo retorna. Esta imprime los datos mencionados y trabaja en conjunto con otra función, permitiendo imprimir todo de forma ordenada.
+    '''
+    imprimir_dato("")
+    acumulador_de_puntos_p_p = 0
+    diccionario_jugador_p_p = {}
+    for jugador in lista_jugadores:
+        acumulador_de_puntos_p_p += jugador['estadisticas']['promedio_puntos_por_partido']
+        if jugador['nombre'] not in diccionario_jugador_p_p:
+            diccionario_jugador_p_p[jugador['nombre']] = jugador['estadisticas']['promedio_puntos_por_partido']
+    imprimir_dato(f"El total del promedio de puntos por partido es: {acumulador_de_puntos_p_p}\n")
+    imprimir_dato(f"El promedio del total mencionado es: {acumulador_de_puntos_p_p/len(lista_jugadores)}\n")
+    ordenar_segun_p_p(diccionario_jugador_p_p)
+

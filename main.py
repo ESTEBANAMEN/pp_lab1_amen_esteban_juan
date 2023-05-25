@@ -3,7 +3,8 @@ from primer_parcial import (leer_json_dream_team,
 							validar_opcion_numerica,
 							mostrar_jugadores_y_posicion,
 							indices_con_nombres,
-							buscar_jugador_por_nombre
+							buscar_jugador_por_nombre,
+							acumular_promediar
 							)
 
 def dream_team_app():
@@ -25,7 +26,7 @@ def dream_team_app():
 			case 4:
 				buscar_jugador_por_nombre(equipo_dream_team)
 			case 5:
-				pass
+				acumular_promediar(equipo_dream_team)
 			case 6:
 				pass
 			case 7:
