@@ -83,7 +83,7 @@ def imprimir_menu():
     menu += '\n3) Guardar en un archivo, de extensión .csv, los datos del punto anterior.'
     menu += '\n4) Buscar un jugador por su nombre y mostrar sus logros.'
     menu += '\n5) Calcular y mostrar el promedio de puntos por partido de todo el equipo del Dream Team, ordenado por nombre de manera ascendente. .'
-    menu += '\n6) .'
+    menu += '\n6) Ingresar el nombre de un jugador y mostrar si ese jugador es miembro del Salón de la Fama del Baloncesto.'
     menu += '\n7) .'
     menu += '\n8) .'
     menu += '\n9) .'
