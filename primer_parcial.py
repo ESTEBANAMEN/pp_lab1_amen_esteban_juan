@@ -84,9 +84,9 @@ def imprimir_menu():
     menu += '\n4) Buscar un jugador por su nombre y mostrar sus logros.'
     menu += '\n5) Calcular y mostrar el promedio de puntos por partido de todo el equipo del Dream Team, ordenado por nombre de manera ascendente. .'
     menu += '\n6) Ingresar el nombre de un jugador y mostrar si ese jugador es miembro del Salón de la Fama del Baloncesto.'
-    menu += '\n7) .'
-    menu += '\n8) .'
-    menu += '\n9) .'
+    menu += '\n7) Calcular y mostrar el jugador con la mayor cantidad de rebotes totales.'
+    menu += '\n8) Calcular y mostrar el jugador con el mayor porcentaje de tiros de campo.'
+    menu += '\n9) Calcular y mostrar el jugador con la mayor cantidad de asistencias totales.'
     menu += '\n10) .'
     menu += '\n11) .'
     menu += '\n12) .'
@@ -243,6 +243,11 @@ def acumular_promediar(lista_jugadores:list[dict]):
 #################################################### PUNTOS 7, 8 y 9 ####################################################
 
 def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores:list[dict],estadistica_a_evaluar:str):
+    '''
+    \nEsta función no busca un valor maximo entre ciertas estadisticas solicitadas y hardcodeadas desde el main.py.
+    \nRecibe por parametros la lista de diccionarios (jugadores) y una cadena de texto correspondiente a la estadistica, cuyo valor sera evaluado entre todos los jugadores.
+    \nNo retorna. Imprime un mensaje adaptado, informando el nombre y la cantidad que representa el maximo de los valores correspondientes a la estadistica hardcodeada.
+    '''
     nombre_estadistica_max = ""
     estadistica_max = 0
     for jugador in lista_jugadores:

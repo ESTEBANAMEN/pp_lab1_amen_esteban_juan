@@ -23,7 +23,7 @@ def dream_team_app():
 			case 2:
 				indices_con_nombres(equipo_dream_team)
 			case 3:
-				print('\nEste punto se utiliza junto con el anterior. Usted debe visualizar primeramente si lo que va a guardar esta en orden!')
+				print('\nEste punto se utiliza junto con el anterior. Usted debe visualizar primeramente si lo que va a guardar es de su agrado!')
 			case 4:
 				buscar_jugador_por_nombre_logros(equipo_dream_team, opcion)
 			case 5:
