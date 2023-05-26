@@ -219,17 +219,18 @@ def mostrar_logros_jugador(nombre:str, lista_jugadores:list[dict], punto:int):
                         imprimir_dato(f"{jugador['nombre']} es {logro}")
     return jugador_encontrado
 
-#################################################### PUNTO 5 ####################################################
+#################################################### PUNTO 5 y 16 ####################################################
 
-def ordenar_segun_p_p(diccionario_jugador_p_p:dict):
+def ordenar_segun_p_p(diccionario_jugador_p_p:dict, punto:str):
     '''
     \nEsta función nos permite realizar un ordenamiento segun valores numéricos almacenados en una lista. Por otro lado de forma paralela, interactuara con otra segunda lista que contiene cadenas de texto.
     \nRecibe por parametro un diccionario con los nombres de los jugadores como claves y el promedio de puntos por partido como valores.
-    \nNo retorna. Imprime, mediante una iteración las nombres y los pomedios en forma ordenada-ascendente.
+    \nNo retorna. Imprime, mediante una iteración las nombres y los pomedios en forma ordenada-ascendente para el punto 5. Para el punto 16 promedio los p-p-p
     '''
     claves = list(diccionario_jugador_p_p.keys())
     valores = list(diccionario_jugador_p_p.values())
     cantidad_de_indices = len(valores)
+    acumulador_valores = 0
     for indice in range(cantidad_de_indices):
         indice_minimo = indice
         for indice2 in range(indice + 1, cantidad_de_indices):
@@ -237,17 +238,23 @@ def ordenar_segun_p_p(diccionario_jugador_p_p:dict):
                 indice_minimo = indice2
         valores[indice], valores[indice_minimo] = valores[indice_minimo], valores[indice]
         claves[indice], claves[indice_minimo] = claves[indice_minimo], claves[indice]
-    imprimir_dato(f"Jugadores ordenados por puntos por partido y de forma ascendente:")
+    if punto == 5:
+        imprimir_dato(f"Jugadores ordenados por puntos por partido y de forma ascendente:")
     for indice in range(cantidad_de_indices):
         clave = claves[indice]
         valor = valores[indice]
-        imprimir_dato(f"{clave}: {valor}")
+        acumulador_valores += valor
+        if punto == 5:
+            imprimir_dato(f"{clave}: {valor}")
+    if punto == 16:
+        promedio_sin_el_mas_pocho = acumulador_valores/(cantidad_de_indices - 1)
+        imprimir_dato(f"El promedio de puntos por partido del equipo, excluyendo al jugador con la menor cantidad de puntos por partido es de: {promedio_sin_el_mas_pocho}")
 
-def acumular_promediar(lista_jugadores:list[dict]):
+def acumular_promediar(lista_jugadores:list[dict], punto:str):
     '''
     \nEsta función acumula los promedios de puntos por partido de los jugadores, los promedia y almacena los nombres y valores mencionados en un diccionario.
     \nRecibe por parametro la lista de diccionarios correspondientes a los jugadores del Dream Team.
-    \nNo retorna. Esta imprime los datos mencionados y trabaja en conjunto con otra función, permitiendo imprimir todo de forma ordenada.
+    \nNo retorna. Esta imprime los datos mencionados y trabaja en conjunto con otra función, permitiendo imprimir todo de forma ordenada para el punto 5 y para el punto 16 no imprime nada.
     '''
     imprimir_dato("")
     acumulador_de_puntos_p_p = 0
@@ -256,9 +263,12 @@ def acumular_promediar(lista_jugadores:list[dict]):
         acumulador_de_puntos_p_p += jugador['estadisticas']['promedio_puntos_por_partido']
         if jugador['nombre'] not in diccionario_jugador_p_p:
             diccionario_jugador_p_p[jugador['nombre']] = jugador['estadisticas']['promedio_puntos_por_partido']
-    imprimir_dato(f"El total del promedio de puntos por partido es: {acumulador_de_puntos_p_p}\n")
-    imprimir_dato(f"El promedio del total mencionado es: {acumulador_de_puntos_p_p/len(lista_jugadores)}\n")
-    ordenar_segun_p_p(diccionario_jugador_p_p)
+    if punto == 5:
+        imprimir_dato(f"El total del promedio de puntos por partido es: {acumulador_de_puntos_p_p}\n")
+        imprimir_dato(f"El promedio del total mencionado es: {acumulador_de_puntos_p_p/len(lista_jugadores)}\n")
+        ordenar_segun_p_p(diccionario_jugador_p_p, punto)
+    else:
+        ordenar_segun_p_p(diccionario_jugador_p_p, punto)
 
 #################################################### PUNTOS 7, 8, 9, 13, 14 y 19 ####################################################
 
@@ -290,7 +300,7 @@ def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores: list[dict], estadis
     imprimir_dato("")
     imprimir_dato(mensaje)
 
-#################################################### PUNTOS 10, 11 y 12 ####################################################
+#################################################### PUNTOS 10, 11, 12 y 15 ####################################################
 
 def mostrar_jugadores_que_superan_el_valor(lista_jugadores:list[dict],estadistica_a_evaluar:str):
     '''
@@ -310,8 +320,8 @@ def mostrar_jugadores_que_superan_el_valor(lista_jugadores:list[dict],estadistic
     imprimir_dato("")
     for jugador in lista_jugadores:
         if jugador['estadisticas'][estadistica_a_evaluar] > valor_de_comparacion:
+            bandera = 1
             mensaje = f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas']['promedio_puntos_por_partido']}."
             imprimir_dato(mensaje)
-            bandera == 1
     if bandera == 0:
-            imprimir_dato("Ningun jugador ha superado tus espectativas!!")
+        imprimir_dato("Ningun jugador ha superado tus espectativas!!")

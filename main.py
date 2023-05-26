@@ -35,7 +35,7 @@ def dream_team_app():
 					imprimir_dato("")
 				mostrar_logros_jugador(nombre, equipo_dream_team, opcion)
 			case 5:
-				acumular_promediar(equipo_dream_team)
+				acumular_promediar(equipo_dream_team, opcion)
 			case 6:
 				nombre = input("\nIngrese el nombre del jugador del cual quiere visualizar los correspondientes logros: ").capitalize()
 				imprimir_dato("")
@@ -60,9 +60,9 @@ def dream_team_app():
 			case 14:
 				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'bloqueos_totales')
 			case 15:
-				pass
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'porcentaje_tiros_libres')
 			case 16:
-				pass
+				acumular_promediar(equipo_dream_team, opcion)
 			case 17:
 				pass
 			case 18:
