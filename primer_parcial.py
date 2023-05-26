@@ -98,8 +98,8 @@ def imprimir_menu():
     menu += '\n8) Calcular y mostrar el jugador con el mayor porcentaje de tiros de campo.'
     menu += '\n9) Calcular y mostrar el jugador con la mayor cantidad de asistencias totales.'
     menu += '\n10) Ingresar un valor y mostrar los jugadores que han promediado más puntos por partido que ese valor.'
-    menu += '\n11) .'
-    menu += '\n12) .'
+    menu += '\n11) Ingresar un valor y mostrar los jugadores que han promediado más rebotes por partido que ese valor.'
+    menu += '\n12) Ingresar un valor y mostrar los jugadores que han promediado más asistencias por partido que ese valor.'
     menu += '\n13) .'
     menu += '\n14) .'
     menu += '\n15) .'
@@ -160,6 +160,8 @@ def indices_con_nombres(lista_jugadores:list[dict]):
         indice += 1
     while True:
         opcion = input("\nSeleccione el índice de un jugador: ")
+        while not opcion.isdigit():
+            opcion = input("\nERROR!! Seleccione el índice de un jugador: ")
         indice = int(opcion)
         if indice >= 0 and indice < len(lista_jugadores):
             jugador_seleccionado = lista_jugadores[indice]
@@ -182,18 +184,29 @@ def indices_con_nombres(lista_jugadores:list[dict]):
 
 #################################################### PUNTOS 4 y 6 ####################################################
 
-def buscar_jugador_por_nombre_logros(lista_jugadores:list[dict], punto:int):
+def buscar_jugador_por_nombre(nombre:str, lista_jugadores:list[dict]) -> bool:
     '''
-    \nEsta función permite que el usuario ingrese ciertos caracteres con los cuales se buscarán coincidencias en los nombres de los jugadores, para luego mediante estos, acceder a los logros.
-    \nRecibe como parametro la lista de diccionarios que representan los jugadores y un entero que representa la opcion del menú elegida por el usuario.
-    \nNo retorna, pero imprime el nombre y los logros (para el punto 4) o si dentro de ellos tiene la membresia en el salon de la fama (punto 6) segun el match que devuelve el re.search.
+    \nEsta función se utiliza para encontrar un "match" de ciertos caracteres que representan el nombre de un jugador respecto a la lista de jugadores.
+    \nRecibe por parametros el nombre(cadena) ingresado desde el menú y la lista de jugadores.
+    \nRetorna True si encontro un match y False en el caso contrario.
     '''
-    nombre = input("\nIngrese el nombre del jugador: ").capitalize()
-    imprimir_dato("")
-    booleano = False
+    jugador_encontrado = False
     for jugador in lista_jugadores:
         if re.search(nombre, jugador['nombre']):
-            booleano = True
+            jugador_encontrado = True
+            return True
+    return False
+
+def mostrar_logros_jugador(nombre:str, lista_jugadores:list[dict], punto:int):
+    '''
+    \nEsta función analiza ciertos caracteres ingresados por el usuario, con los cuales se buscarán coincidencias en los nombres de los jugadores, para luego mediante estos, acceder a los logros.
+    \nRecibe como parametros un nombre(cadena), la lista de diccionarios que representan los jugadores y un entero que es la opcion del menú elegida por el usuario.
+    \nNo retorna, pero imprime el nombre y los logros (para el punto 4) o si dentro de ellos tiene la membresia en el salon de la fama (punto 6) segun el match que devuelve el re.search.
+    '''
+    jugador_encontrado = False
+    for jugador in lista_jugadores:
+        if re.search(nombre, jugador['nombre']):
+            jugador_encontrado = True
             if punto == 4:
                 frase_con_nombre = f"Logros de: {jugador['nombre']}"
                 imprimir_dato(frase_con_nombre)
@@ -204,10 +217,7 @@ def buscar_jugador_por_nombre_logros(lista_jugadores:list[dict], punto:int):
                 for logro in jugador['logros']:
                     if logro == "Miembro del Salon de la Fama del Baloncesto":
                         imprimir_dato(f"{jugador['nombre']} es {logro}")
-    if booleano:
-        pass
-    else:
-        imprimir_dato("\nNo hay coincidencias!")
+    return jugador_encontrado
 
 #################################################### PUNTO 5 ####################################################
 
@@ -250,33 +260,58 @@ def acumular_promediar(lista_jugadores:list[dict]):
     imprimir_dato(f"El promedio del total mencionado es: {acumulador_de_puntos_p_p/len(lista_jugadores)}\n")
     ordenar_segun_p_p(diccionario_jugador_p_p)
 
-#################################################### PUNTOS 7, 8 y 9 ####################################################
+#################################################### PUNTOS 7, 8, 9, 13, 14 y 19 ####################################################
 
-def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores:list[dict],estadistica_a_evaluar:str):
+def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores: list[dict], estadistica_a_evaluar: str):
     '''
-    \nEsta función no busca un valor maximo entre ciertas estadisticas solicitadas y hardcodeadas desde el main.py.
-    \nRecibe por parametros la lista de diccionarios (jugadores) y una cadena de texto correspondiente a la estadistica, cuyo valor sera evaluado entre todos los jugadores.
-    \nNo retorna. Imprime un mensaje adaptado, informando el nombre y la cantidad que representa el maximo de los valores correspondientes a la estadistica hardcodeada.
+    \nEsta función busca un valor máximo entre ciertas estadísticas solicitadas y hardcodeadas desde el main.py.
+    \nRecibe por parámetros la lista de diccionarios (jugadores) y una cadena de texto correspondiente a la estadística, cuyo valor será evaluado entre todos los jugadores.
+    \nNo retorna. Imprime un mensaje adaptado, informando los nombres y la cantidad que representa el máximo de los valores correspondientes a la estadística hardcodeada.
     '''
-    nombre_estadistica_max = ""
+    nombres_estadistica_max = []
     estadistica_max = 0
     for jugador in lista_jugadores:
         if jugador['estadisticas'][estadistica_a_evaluar] > estadistica_max:
-            nombre_estadistica_max = jugador['nombre']
+            nombres_estadistica_max = [jugador['nombre']]
             estadistica_max = jugador['estadisticas'][estadistica_a_evaluar]
+        elif jugador['estadisticas'][estadistica_a_evaluar] == estadistica_max:
+            nombres_estadistica_max.append(jugador['nombre'])
+    
     estadistica_final = estadistica_a_evaluar.replace("_", " ")
-    if re.search(r"^porcentaje tiros",estadistica_final):
+    if re.search(r"^porcentaje tiros", estadistica_final):
         estadistica_final = re.sub(r"porcentaje tiros", "porcentaje de tiros", estadistica_final)
-    mensaje = f"El jugador con mas {estadistica_final} es {nombre_estadistica_max}, con la cantidad de {estadistica_max}"
+    
+    if len(nombres_estadistica_max) == 1:
+        mensaje = f"El jugador con más {estadistica_final} es {nombres_estadistica_max[0]}, con la cantidad de {estadistica_max}"
+    else:
+        nombres = " y ".join(nombres_estadistica_max)
+        mensaje = f"Los jugadores con más {estadistica_final} son {nombres}, con la cantidad de {estadistica_max}"
+    
     imprimir_dato("")
     imprimir_dato(mensaje)
 
-#################################################### PUNTO 10 ####################################################
+#################################################### PUNTOS 10, 11 y 12 ####################################################
 
-def mostrar_jugadores_que_superan_el_valor(lista_jugadores:list[dict]):
+def mostrar_jugadores_que_superan_el_valor(lista_jugadores:list[dict],estadistica_a_evaluar:str):
+    '''
+    \nEsta función permite comparar los valores de ciertas estadisticas, respecto al valor ingresado por el usuario. Así mismo, corrobora que el dato que haya escrito el usuario sea digito.
+    \nRecibe por parametros la lista de diccionarios (jugadores) y una cadena de texto correspondiente a la estadistica, cuyo valor sera evaluado entre todos los jugadores.
+    \nNo retorna. Imprime un mensaje adaptado, informando el nombre y la cantidad que representa el valor que supero al que ingreso el usuario.
+    '''
     imprimir_dato("")
-    valor_de_comparacion = que_sea_digit(input("Ingrese un valor para comparar con el promedio de puntos por partido de todos los jugadores: "))
+    bandera = 0
+    estadistica_modificada = estadistica_a_evaluar.replace("_", " ")
+    if re.search(r"^promedio ",estadistica_modificada):
+        estadistica_modificada = re.sub(r"promedio ", "promedio de ", estadistica_modificada)
+    valor_de_comparacion = input(f"Ingrese un valor para comparar con el {estadistica_modificada} de todos los jugadores: ")
+    while not valor_de_comparacion.isdigit():
+        valor_de_comparacion = input(f"ERROR!! Ingrese un valor para comparar con el {estadistica_modificada} de todos los jugadores: ")
+    valor_de_comparacion = que_sea_digit(valor_de_comparacion)
+    imprimir_dato("")
     for jugador in lista_jugadores:
-        if jugador['estadisticas']['promedio_puntos_por_partido'] > valor_de_comparacion:
+        if jugador['estadisticas'][estadistica_a_evaluar] > valor_de_comparacion:
             mensaje = f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas']['promedio_puntos_por_partido']}."
             imprimir_dato(mensaje)
+            bandera == 1
+    if bandera == 0:
+            imprimir_dato("Ningun jugador ha superado tus espectativas!!")
