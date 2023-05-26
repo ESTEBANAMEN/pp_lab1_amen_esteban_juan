@@ -100,13 +100,13 @@ def imprimir_menu():
     menu += '\n10) Ingresar un valor y mostrar los jugadores que han promediado más puntos por partido que ese valor.'
     menu += '\n11) Ingresar un valor y mostrar los jugadores que han promediado más rebotes por partido que ese valor.'
     menu += '\n12) Ingresar un valor y mostrar los jugadores que han promediado más asistencias por partido que ese valor.'
-    menu += '\n13) .'
-    menu += '\n14) .'
-    menu += '\n15) .'
-    menu += '\n16) .'
+    menu += '\n13) Calcular y mostrar el jugador con la mayor cantidad de robos totales.'
+    menu += '\n14) Calcular y mostrar el jugador con la mayor cantidad de bloqueos totales.'
+    menu += '\n15) Ingresar un valor y mostrar los jugadores que hayan tenido un porcentaje de tiros libres superior a ese valor.'
+    menu += '\n16) Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al jugador con la menor cantidad de puntos por partido.'
     menu += '\n17) .'
     menu += '\n18) .'
-    menu += '\n19) .'
+    menu += '\n19) Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.'
     menu += '\n20) .'
     menu += '\n21) .'
     menu += '\n22) .'
@@ -225,7 +225,7 @@ def ordenar_segun_p_p(diccionario_jugador_p_p:dict, punto:str):
     '''
     \nEsta función nos permite realizar un ordenamiento segun valores numéricos almacenados en una lista. Por otro lado de forma paralela, interactuara con otra segunda lista que contiene cadenas de texto.
     \nRecibe por parametro un diccionario con los nombres de los jugadores como claves y el promedio de puntos por partido como valores.
-    \nNo retorna. Imprime, mediante una iteración las nombres y los pomedios en forma ordenada-ascendente para el punto 5. Para el punto 16 promedio los p-p-p
+    \nNo retorna. Imprime, mediante una iteración las nombres y los pomedios en forma ordenada-ascendente para el punto 5. Para el punto 16 promedia los p-p-p sin contemplar el jugador con menos puntaje en esa estadistica.
     '''
     claves = list(diccionario_jugador_p_p.keys())
     valores = list(diccionario_jugador_p_p.values())
@@ -243,7 +243,8 @@ def ordenar_segun_p_p(diccionario_jugador_p_p:dict, punto:str):
     for indice in range(cantidad_de_indices):
         clave = claves[indice]
         valor = valores[indice]
-        acumulador_valores += valor
+        if indice != 0:
+            acumulador_valores += valor
         if punto == 5:
             imprimir_dato(f"{clave}: {valor}")
     if punto == 16:
