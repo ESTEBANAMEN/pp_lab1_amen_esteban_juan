@@ -5,7 +5,8 @@ from primer_parcial import (leer_json_dream_team,
 							indices_con_nombres,
 							buscar_jugador_por_nombre_logros,
 							acumular_promediar,
-							iterar_jugadores_calcular_max_y_mostrar
+							iterar_jugadores_calcular_max_y_mostrar,
+							mostrar_jugadores_que_superan_el_valor
 							)
 
 def dream_team_app():
@@ -37,7 +38,7 @@ def dream_team_app():
 			case 9:
 				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'asistencias_totales')
 			case 10:
-				pass
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team)
 			case 11:
 				pass
 			case 12:

@@ -29,7 +29,7 @@ def validar_opcion_numerica(opcion: str) -> int:
     \nRecibe por parametro la opción tipo string.
     \nRetorna la opción en tipo int en caso de que sea valido el dato ingresado y en caso contrario, devuelve el valor 25 (en el menú: "opción invalida").
     '''
-    if re.search(r'^([1-9]{1,2}$)', opcion) and int(opcion) < 25:
+    if re.search(r'^([1-9]|[1-2][0-9]|24)$', opcion):
         return int(opcion)
     else:
         return 25
@@ -71,6 +71,16 @@ def guardar_archivo(nombre_archivo:str, contenido_a_guardar:str) -> bool:
         mensaje = f"\nERROR al crear el archivo: {nombre_archivo}"
         print(mensaje)
 
+def que_sea_digit(digito: str) -> float:
+    '''
+    \nEsta función verifica que la opción ingresada sea digito (una cadena conformada por numeros que pueden ser enteros o flotantes).
+    \nRecibe por parametro la cadena tipo string.
+    \nRetorna la cadena en tipo float.
+    '''
+    if re.search(r'^([0-9]+(\.[0-9]+)?)$', digito):
+        return float(digito)
+
+
 ##########################################################################################################################
 
 def imprimir_menu():
@@ -87,7 +97,7 @@ def imprimir_menu():
     menu += '\n7) Calcular y mostrar el jugador con la mayor cantidad de rebotes totales.'
     menu += '\n8) Calcular y mostrar el jugador con el mayor porcentaje de tiros de campo.'
     menu += '\n9) Calcular y mostrar el jugador con la mayor cantidad de asistencias totales.'
-    menu += '\n10) .'
+    menu += '\n10) Ingresar un valor y mostrar los jugadores que han promediado más puntos por partido que ese valor.'
     menu += '\n11) .'
     menu += '\n12) .'
     menu += '\n13) .'
@@ -260,3 +270,13 @@ def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores:list[dict],estadisti
     mensaje = f"El jugador con mas {estadistica_final} es {nombre_estadistica_max}, con la cantidad de {estadistica_max}"
     imprimir_dato("")
     imprimir_dato(mensaje)
+
+#################################################### PUNTO 10 ####################################################
+
+def mostrar_jugadores_que_superan_el_valor(lista_jugadores:list[dict]):
+    imprimir_dato("")
+    valor_de_comparacion = que_sea_digit(input("Ingrese un valor para comparar con el promedio de puntos por partido de todos los jugadores: "))
+    for jugador in lista_jugadores:
+        if jugador['estadisticas']['promedio_puntos_por_partido'] > valor_de_comparacion:
+            mensaje = f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas']['promedio_puntos_por_partido']}."
+            imprimir_dato(mensaje)
