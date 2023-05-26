@@ -8,7 +8,8 @@ from primer_parcial import (leer_json_dream_team,
 							mostrar_logros_jugador,
 							acumular_promediar,
 							iterar_jugadores_calcular_max_y_mostrar,
-							mostrar_jugadores_que_superan_el_valor
+							mostrar_jugadores_que_superan_el_valor,
+							calcular_jugador_con_mas_logros
 							)
 
 def dream_team_app():
@@ -64,9 +65,9 @@ def dream_team_app():
 			case 16:
 				acumular_promediar(equipo_dream_team, opcion)
 			case 17:
-				pass
+				calcular_jugador_con_mas_logros(equipo_dream_team)
 			case 18:
-				pass
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'porcentaje_tiros_triples')
 			case 19:
 				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'temporadas')
 			case 20:

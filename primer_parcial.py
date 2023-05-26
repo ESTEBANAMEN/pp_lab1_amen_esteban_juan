@@ -9,7 +9,7 @@ def leer_json_dream_team(nombre_archivo: str, clave: str):
     \nRecibe por parametros la ruta del archivo .json y un string para acceder a los jugadores
     \nRetorna una lista de diccionarios con los datos de los jugadores.
     '''
-    with open(nombre_archivo, 'r', encoding='utf-8') as archivo:
+    with open(nombre_archivo, 'r', encoding = 'utf-8') as archivo:
         info = json.load(archivo)
         jugadores = info[clave]
         return jugadores
@@ -104,8 +104,8 @@ def imprimir_menu():
     menu += '\n14) Calcular y mostrar el jugador con la mayor cantidad de bloqueos totales.'
     menu += '\n15) Ingresar un valor y mostrar los jugadores que hayan tenido un porcentaje de tiros libres superior a ese valor.'
     menu += '\n16) Calcular y mostrar el promedio de puntos por partido del equipo excluyendo al jugador con la menor cantidad de puntos por partido.'
-    menu += '\n17) .'
-    menu += '\n18) .'
+    menu += '\n17) Calcular y mostrar el jugador con la mayor cantidad de logros obtenidos.'
+    menu += '\n18) Ingresar un valor y mostrar los jugadores que hayan tenido un porcentaje de tiros triples superior a ese valor.'
     menu += '\n19) Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.'
     menu += '\n20) .'
     menu += '\n21) .'
@@ -303,7 +303,7 @@ def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores: list[dict], estadis
 
 #################################################### PUNTOS 10, 11, 12 y 15 ####################################################
 
-def mostrar_jugadores_que_superan_el_valor(lista_jugadores:list[dict],estadistica_a_evaluar:str):
+def mostrar_jugadores_que_superan_el_valor(lista_jugadores: list[dict], estadistica_a_evaluar: str):
     '''
     \nEsta función permite comparar los valores de ciertas estadisticas, respecto al valor ingresado por el usuario. Así mismo, corrobora que el dato que haya escrito el usuario sea digito.
     \nRecibe por parametros la lista de diccionarios (jugadores) y una cadena de texto correspondiente a la estadistica, cuyo valor sera evaluado entre todos los jugadores.
@@ -312,17 +312,29 @@ def mostrar_jugadores_que_superan_el_valor(lista_jugadores:list[dict],estadistic
     imprimir_dato("")
     bandera = 0
     estadistica_modificada = estadistica_a_evaluar.replace("_", " ")
-    if re.search(r"^promedio ",estadistica_modificada):
+    if re.search(r"^promedio ", estadistica_modificada):
         estadistica_modificada = re.sub(r"promedio ", "promedio de ", estadistica_modificada)
     valor_de_comparacion = input(f"Ingrese un valor para comparar con el {estadistica_modificada} de todos los jugadores: ")
     while not valor_de_comparacion.isdigit():
         valor_de_comparacion = input(f"ERROR!! Ingrese un valor para comparar con el {estadistica_modificada} de todos los jugadores: ")
-    valor_de_comparacion = que_sea_digit(valor_de_comparacion)
+    valor_de_comparacion = int(valor_de_comparacion)
     imprimir_dato("")
     for jugador in lista_jugadores:
         if jugador['estadisticas'][estadistica_a_evaluar] > valor_de_comparacion:
             bandera = 1
-            mensaje = f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas']['promedio_puntos_por_partido']}."
+            mensaje = f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas'][estadistica_a_evaluar]}."
             imprimir_dato(mensaje)
     if bandera == 0:
-        imprimir_dato("Ningun jugador ha superado tus espectativas!!")
+        imprimir_dato("Ningún jugador ha superado tus expectativas!!")
+
+#################################################### PUNTO 17 ####################################################
+
+def calcular_jugador_con_mas_logros(lista_jugadores:list[dict]):
+    nombre_jugador_max_logros = ""
+    cant_max_logros = 0
+    for jugador in lista_jugadores:
+        if len(jugador['logros']) > cant_max_logros:
+            nombre_jugador_max_logros = jugador['nombre']
+            cant_max_logros = len(jugador['logros'])
+    imprimir_dato("")
+    imprimir_dato(f"El jugador con mas logros es: {nombre_jugador_max_logros}, con {cant_max_logros} tipos de logros distintos. Para visualizarlos, vaya al punto 4 y escriba el nombre.")
