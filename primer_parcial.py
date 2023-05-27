@@ -25,14 +25,14 @@ def imprimir_dato(dato):
 
 def validar_opcion_numerica(opcion: str) -> int:
     '''
-    \nEsta función verifica que la opción ingresada sea un numero entre el 1 y el 24 inclusives.
-    \nRecibe por parametro la opción tipo string.
-    \nRetorna la opción en tipo int en caso de que sea valido el dato ingresado y en caso contrario, devuelve el valor 25 (en el menú: "opción invalida").
+    Esta función verifica que la opción ingresada sea un número entre el 1 y el 22 inclusives.
+    Recibe por parámetro la opción en tipo string.
+    Retorna la opción en tipo int en caso de que sea válido el dato ingresado, y en caso contrario, devuelve el valor 23 (en el menú: "opción inválida").
     '''
-    if re.search(r'^([1-9]|[1-2][0-9]|24)$', opcion):
+    if re.search(r'^([1-9]|1[0-9]|2[0-2])$', opcion):
         return int(opcion)
     else:
-        return 25
+        return 23
 
 def reemplazar_guion_por_espacio_y_capitalizar(cadena:str) -> str:
     '''
@@ -80,6 +80,18 @@ def que_sea_digit(digito: str) -> float:
     if re.search(r'^([0-9]+(\.[0-9]+)?)$', digito):
         return float(digito)
 
+def buscar_jugador_por_nombre(nombre:str, lista_jugadores:list[dict]) -> bool:
+    '''
+    \nEsta función se utiliza para encontrar un "match" de ciertos caracteres que representan el nombre de un jugador respecto a la lista de jugadores.
+    \nRecibe por parametros el nombre(cadena) ingresado desde el menú y la lista de jugadores.
+    \nRetorna True si encontro un match y False en el caso contrario.
+    '''
+    jugador_encontrado = False
+    for jugador in lista_jugadores:
+        if re.search(nombre, jugador['nombre']):
+            jugador_encontrado = True
+            return True
+    return False
 
 ##########################################################################################################################
 
@@ -107,11 +119,9 @@ def imprimir_menu():
     menu += '\n17) Calcular y mostrar el jugador con la mayor cantidad de logros obtenidos.'
     menu += '\n18) Ingresar un valor y mostrar los jugadores que hayan tenido un porcentaje de tiros triples superior a ese valor.'
     menu += '\n19) Calcular y mostrar el jugador con la mayor cantidad de temporadas jugadas.'
-    menu += '\n20) .'
+    menu += '\n20) Ingresar un valor y mostrar los jugadores , ordenados por posición en la cancha, que hayan tenido un porcentaje de tiros de campo superior a ese valor.'
     menu += '\n21) .'
-    menu += '\n22) .'
-    menu += '\n23) .'
-    menu += '\n24) Salir.'
+    menu += '\n22) Salir.'
     return imprimir_dato(menu)
 
 #################################################### PUNTO 1 ####################################################
@@ -183,19 +193,6 @@ def indices_con_nombres(lista_jugadores:list[dict]):
             imprimir_dato("\nIndice Erroneo!! Intentalo nuevamente.")
 
 #################################################### PUNTOS 4 y 6 ####################################################
-
-def buscar_jugador_por_nombre(nombre:str, lista_jugadores:list[dict]) -> bool:
-    '''
-    \nEsta función se utiliza para encontrar un "match" de ciertos caracteres que representan el nombre de un jugador respecto a la lista de jugadores.
-    \nRecibe por parametros el nombre(cadena) ingresado desde el menú y la lista de jugadores.
-    \nRetorna True si encontro un match y False en el caso contrario.
-    '''
-    jugador_encontrado = False
-    for jugador in lista_jugadores:
-        if re.search(nombre, jugador['nombre']):
-            jugador_encontrado = True
-            return True
-    return False
 
 def mostrar_logros_jugador(nombre:str, lista_jugadores:list[dict], punto:int):
     '''
@@ -301,9 +298,9 @@ def iterar_jugadores_calcular_max_y_mostrar(lista_jugadores: list[dict], estadis
     imprimir_dato("")
     imprimir_dato(mensaje)
 
-#################################################### PUNTOS 10, 11, 12 y 15 ####################################################
+#################################################### PUNTOS 10, 11, 12, 15 y 20 ####################################################
 
-def mostrar_jugadores_que_superan_el_valor(lista_jugadores: list[dict], estadistica_a_evaluar: str):
+def mostrar_jugadores_que_superan_el_valor(lista_jugadores: list[dict], estadistica_a_evaluar: str, punto:int):
     '''
     \nEsta función permite comparar los valores de ciertas estadisticas, respecto al valor ingresado por el usuario. Así mismo, corrobora que el dato que haya escrito el usuario sea digito.
     \nRecibe por parametros la lista de diccionarios (jugadores) y una cadena de texto correspondiente a la estadistica, cuyo valor sera evaluado entre todos los jugadores.
@@ -311,21 +308,46 @@ def mostrar_jugadores_que_superan_el_valor(lista_jugadores: list[dict], estadist
     '''
     imprimir_dato("")
     bandera = 0
+    lista_posiciones = []
     estadistica_modificada = estadistica_a_evaluar.replace("_", " ")
+
     if re.search(r"^promedio ", estadistica_modificada):
         estadistica_modificada = re.sub(r"promedio ", "promedio de ", estadistica_modificada)
+    elif re.search(r"^porcentaje tiros", estadistica_modificada):
+        estadistica_modificada = re.sub(r"porcentaje tiros", "porcentaje de tiros", estadistica_modificada)
+
     valor_de_comparacion = input(f"Ingrese un valor para comparar con el {estadistica_modificada} de todos los jugadores: ")
     while not valor_de_comparacion.isdigit():
         valor_de_comparacion = input(f"ERROR!! Ingrese un valor para comparar con el {estadistica_modificada} de todos los jugadores: ")
     valor_de_comparacion = int(valor_de_comparacion)
     imprimir_dato("")
-    for jugador in lista_jugadores:
-        if jugador['estadisticas'][estadistica_a_evaluar] > valor_de_comparacion:
-            bandera = 1
-            mensaje = f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas'][estadistica_a_evaluar]}."
-            imprimir_dato(mensaje)
-    if bandera == 0:
-        imprimir_dato("Ningún jugador ha superado tus expectativas!!")
+
+    if punto != 20:
+        for jugador in lista_jugadores:
+            if jugador['estadisticas'][estadistica_a_evaluar] > valor_de_comparacion:
+                bandera = 1
+                mensaje = f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas'][estadistica_a_evaluar]}."
+                imprimir_dato(mensaje)
+        if bandera == 0:
+            imprimir_dato("Ningún jugador ha superado tus expectativas!!")
+
+    else:
+        for jugador in lista_jugadores:
+            if jugador['posicion'] not in lista_posiciones:
+                lista_posiciones.append(jugador['posicion'])
+
+        for posicion in lista_posiciones:
+            imprimir_dato("")
+            imprimir_dato(f"En la posición {posicion}:")
+            bandera_posicion = 0
+
+            for jugador in lista_jugadores:
+                if posicion == jugador['posicion'] and jugador['estadisticas'][estadistica_a_evaluar] > valor_de_comparacion:
+                    imprimir_dato(f"{jugador['nombre']} superó los {valor_de_comparacion} con {jugador['estadisticas'][estadistica_a_evaluar]}.")
+                    bandera_posicion = 1
+
+            if bandera_posicion == 0:
+                imprimir_dato("Ningún jugador ha superado tus expectativas!!")
 
 #################################################### PUNTO 17 ####################################################
 

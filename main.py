@@ -9,7 +9,7 @@ from primer_parcial import (leer_json_dream_team,
 							acumular_promediar,
 							iterar_jugadores_calcular_max_y_mostrar,
 							mostrar_jugadores_que_superan_el_valor,
-							calcular_jugador_con_mas_logros
+							calcular_jugador_con_mas_logros,
 							)
 
 def dream_team_app():
@@ -51,36 +51,31 @@ def dream_team_app():
 			case 9:
 				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'asistencias_totales')
 			case 10:
-				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'promedio_puntos_por_partido')
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'promedio_puntos_por_partido', opcion)
 			case 11:
-				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'promedio_rebotes_por_partido')
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'promedio_rebotes_por_partido', opcion)
 			case 12:
-				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'promedio_asistencias_por_partido')
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'promedio_asistencias_por_partido', opcion)
 			case 13:
 				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'robos_totales')
 			case 14:
 				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'bloqueos_totales')
 			case 15:
-				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'porcentaje_tiros_libres')
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'porcentaje_tiros_libres', opcion)
 			case 16:
 				acumular_promediar(equipo_dream_team, opcion)
 			case 17:
 				calcular_jugador_con_mas_logros(equipo_dream_team)
 			case 18:
-				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'porcentaje_tiros_triples')
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'porcentaje_tiros_triples', opcion)
 			case 19:
 				iterar_jugadores_calcular_max_y_mostrar(equipo_dream_team,'temporadas')
 			case 20:
-				pass
+				mostrar_jugadores_que_superan_el_valor(equipo_dream_team, 'porcentaje_tiros_de_campo', opcion)
 			case 21:
 				pass
 			case 22:
-				pass
-			case 23:
-				pass
-			case 24:
 				print("CERRANDO PROGRAMA! UN SALUDO.")
-				break
-			case 25:
+			case 23:
 				print("\nOpción invalida!!")
 dream_team_app()
