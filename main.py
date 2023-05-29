@@ -9,7 +9,7 @@ from primer_parcial import (leer_json_dream_team,
 							acumular_promediar,
 							iterar_jugadores_calcular_max_y_mostrar,
 							mostrar_jugadores_que_superan_el_valor,
-							calcular_jugador_con_mas_logros,
+							calcular_jugador_con_mas_logros
 							)
 
 def dream_team_app():
